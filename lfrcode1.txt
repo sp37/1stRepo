@@ -1,0 +1,168 @@
+const int n=5;
+int sensorPin[n];
+int sensorValue[n];
+int sensorMin[n]={1023,1023,1023,1023,1023};
+int sensorMax[n]={0,0,0,0,0};
+int avg[n],con[n],i,j;
+int lm1=3,lm2=5,rm1=6,rm2=9;
+void getValues();
+void goStraight();
+void goRight();
+void goLeft();
+
+
+void setup()
+{
+  pinMode(3,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(9,OUTPUT);
+  pinMode(A0,INPUT);
+  pinMode(A1,INPUT);
+  pinMode(A2,INPUT);
+  pinMode(A3,INPUT);
+  pinMode(A4,INPUT);
+  Serial.begin(9600);
+  calibrate();
+}
+
+
+void getValues()
+{
+  for(i=0;i<n;i++)
+  {
+    sensorValue[i]=analogRead(sensorPin[i]);
+    if(sensorValue[i]>avg[i])
+    {
+      con[i]=1;//black
+    }
+    if(sensorValue[i]<avg[i])
+    {
+      con[i]=0;//white
+    }
+    Serial.print(con[i]);
+  }
+  Serial.println(" ");
+  delay(1000);
+}
+
+void goStraight()
+{
+  analogWrite(lm1,0);
+  analogWrite(lm2,255);
+  analogWrite(rm1,0);
+  analogWrite(rm2,255);
+}
+
+void goLeft()
+{
+  analogWrite(lm1,0);
+  analogWrite(lm2,0);
+  analogWrite(rm1,0);
+  analogWrite(rm2,255);
+}
+
+void goRight()
+{
+  analogWrite(lm1,0);
+  analogWrite(lm2,255);
+  analogWrite(rm1,0);
+  analogWrite(rm2,0);
+}
+
+void calibrate()
+{
+  sensorPin[0]=A0;
+  sensorPin[1]=A1;
+  sensorPin[2]=A2;
+  sensorPin[3]=A3;
+  sensorPin[4]=A4;
+  for(i=0;i<5000;i++)
+  {
+    for(j=0;j<n;j++)
+    {
+      sensorValue[j]=analogRead(sensorPin[j]);
+      if(sensorPin[j]>sensorMax[j])
+      {
+        sensorMax[j]=sensorValue[j];
+      }
+      if(sensorPin[j]<sensorMin[j])
+      {
+        sensorMin[j]=sensorValue[j];
+      }
+      
+    }
+    delay(1);
+  }
+  {
+    Serial.println("Caliberation Complete");
+    Serial.print("Average is");
+    for(i=0;i<n;i++)
+    {
+      avg[i]=(sensorMax[i]+sensorMin[i])/2;
+      Serial.println(avg[i]);
+    }
+    //Serial.println("Let me check now");
+    //delay(1000);
+  }
+}
+
+
+void loop()
+{
+  getValues();
+  if(con[0]==0 && con[1]==0 && con[2]==0 && con[3]==0 && con[4]==0)
+  {
+    
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==0 && con[3]==1 && con[4]==0)
+  {
+    goRight();//wobble right
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==0 && con[3]==1 && con[4]==1)
+  {
+    goRight();
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==1 && con[3]==0 && con[4]==0)
+  {
+    goStraight();
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==1 && con[3]==0 && con[4]==1)
+  {
+    goRight();//sharp right
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==1 && con[3]==1 && con[4]==0)
+  {
+    goRight();
+  }
+  if(con[0]==0 && con[1]==0 && con[2]==1 && con[3]==1 && con[4]==1)
+  {
+    goRight();//90 degree right
+  }
+  if(con[0]==0 && con[1]==1 && con[2]==0 && con[3]==0 && con[4]==0)
+  {
+    goLeft();//wobble left
+  }
+  if(con[0]==0 && con[1]==1 && con[2]==1 && con[3]==0 && con[4]==0)
+  {
+    goLeft();//left
+  }
+  if(con[0]==0 && con[1]==1 && con[2]==1 && con[3]==1 && con[4]==1)
+  {
+    goRight();//right
+  }
+  if(con[0]==1 && con[1]==1 && con[2]==0 && con[3]==0 && con[4]==0)
+  {
+    goLeft();// left
+  }
+  if(con[0]==1 && con[1]==1 && con[2]==1 && con[3]==0 && con[4]==0)
+  {
+    goLeft();//90 degree left
+  }
+  if(con[0]==1 && con[1]==1 && con[2]==1 && con[3]==1 && con[4]==0)
+  {
+    goLeft();// left
+  }
+  
+  
+}
