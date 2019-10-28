@@ -99,7 +99,7 @@ void calibrate()
     Serial.print("Average is");
     for(i=0;i<n;i++)
     {
-      avg[i]=(sensorMax[i]+sensorMin[i])/2;
+      avg[i]=((sensorMax[i]+sensorMin[i])/2) + 200;// average value updated
       Serial.println(avg[i]);
     }
     //Serial.println("Let me check now");
