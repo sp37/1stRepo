@@ -1,4 +1,5 @@
 //pr 3: added documentation and comments
+// pr4: added more documentation and improved path detection
 const int n=5;
 int sensorPin[n];
 int sensorValue[n];
@@ -114,7 +115,7 @@ void loop()
   getValues();
   if(con[0]==0 && con[1]==0 && con[2]==0 && con[3]==0 && con[4]==0)
   {
-    
+     goRight();//wobble right
   }
   if(con[0]==0 && con[1]==0 && con[2]==0 && con[3]==1 && con[4]==0)
   {
@@ -136,26 +137,17 @@ void loop()
   {
     goRight();
   }
-  if(con[0]==0 && con[1]==0 && con[2]==1 && con[3]==1 && con[4]==1)
-  {
-    goRight();//90 degree right
-  }
+  
   if(con[0]==0 && con[1]==1 && con[2]==0 && con[3]==0 && con[4]==0)
   {
     goLeft();//wobble left
   }
-  if(con[0]==0 && con[1]==1 && con[2]==1 && con[3]==0 && con[4]==0)
-  {
-    goLeft();//left
-  }
+ 
   if(con[0]==0 && con[1]==1 && con[2]==1 && con[3]==1 && con[4]==1)
   {
     goRight();//right
   }
-  if(con[0]==1 && con[1]==1 && con[2]==0 && con[3]==0 && con[4]==0)
-  {
-    goLeft();// left
-  }
+  
   if(con[0]==1 && con[1]==1 && con[2]==1 && con[3]==0 && con[4]==0)
   {
     goLeft();//90 degree left
