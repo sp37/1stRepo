@@ -1,3 +1,4 @@
+//pr 3: added documentation and comments
 const int n=5;
 int sensorPin[n];
 int sensorValue[n];
@@ -13,17 +14,17 @@ void goLeft();
 
 void setup()
 {
-  pinMode(3,OUTPUT);
-  pinMode(5,OUTPUT);
-  pinMode(6,OUTPUT);
-  pinMode(9,OUTPUT);
-  pinMode(A0,INPUT);
-  pinMode(A1,INPUT);
-  pinMode(A2,INPUT);
-  pinMode(A3,INPUT);
-  pinMode(A4,INPUT);
+  pinMode(3,OUTPUT); // output pin
+  pinMode(5,OUTPUT); // output pin
+  pinMode(6,OUTPUT); // output pin
+  pinMode(9,OUTPUT); // output pin
+  pinMode(A0,INPUT); // input pin
+  pinMode(A1,INPUT); // input pin
+  pinMode(A2,INPUT); // input pin
+  pinMode(A3,INPUT); // input pin
+  pinMode(A4,INPUT); // input pin
   Serial.begin(9600);
-  calibrate();
+  calibrate();//calibration from average value for LDRs
 }
 
 
